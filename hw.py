@@ -1,6 +1,7 @@
+
 """
 Exercise-1: First-class Function Operation
-Write a function "operation(func, x: int, y: int) -> int" that takes in a function 'func' and two integers, 'x' and 'y'. Apply the function to the two numbers and return the result. 
+Write a function "operation(func, x: int, y: int) -> int" that takes in a function 'func' and two integers, 'x' and 'y'. Apply the function to the two numbers and return the result.
 
 Example:
 def multiply(a, b):
@@ -15,6 +16,8 @@ def operation(func, x: int, y: int) -> int:
     return func(x, y)
 
 print(operation(multiply, 5, 3))
+
+
 """
 Exercise-2: Implement Map Function
 Write a function "my_map(func, my_list: list) -> list" that mimics the built-in Python 'map' function. It should take a function and a list as input, applying the function to each element of the list.
@@ -31,6 +34,7 @@ def my_map(func, my_list: list) -> list:
 
 print(my_map(lambda x: x**2, [1, 2, 3, 4]))
 
+
 """
 Exercise-3: Lambda Function with Filter
 Write a function "filter_even_numbers(numbers: list) -> list" that uses 'filter' and a lambda function to filter out all even numbers from the list.
@@ -43,6 +47,7 @@ def filter_even_numbers(numbers: list) -> list:
     return list(filter(lambda x: x % 2 != 0, numbers))
 
 print(filter_even_numbers([1, 2, 3, 4, 5, 6, 7, 8]))
+
 
 """
 Exercise-4: Recursive Factorial
@@ -58,6 +63,8 @@ def recursive_factorial(n: int) -> int:
     return n * recursive_factorial(n - 1)
 
 print(recursive_factorial(5))
+
+
 """
 Exercise-5: Decorator for Timing
 Write a decorator function "timeit_decorator(func)" that prints the time taken by the function to execute.
@@ -71,9 +78,9 @@ def sample_func():
 import time
 
 def timeit_decorator(func):
-    def wrapper():
+    def wrapper(*args, **kwargs):
         start = time.time()
-        result = func()
+        result = func(*args, **kwargs)
         end = time.time()
         print("Time:", end - start)
         return result
@@ -85,6 +92,8 @@ def sample_func():
 
 res = sample_func()
 print(res)
+
+
 """
 Exercise-6: Function Composition
 Write a function "compose(*funcs)" that takes a series of functions and returns a new function that composes them. The returned function should take an input and apply each function to the result of the previous function.
@@ -103,7 +112,7 @@ def compose(*funcs):
         for func in funcs:
             x = func(x)
         return x
-    
+
     return wrapper
 
 def double(x):
@@ -111,8 +120,10 @@ def double(x):
 
 def square(x):
     return x ** 2
+
 new_func = compose(double, square)
 print(new_func(3))
+
 
 """
 Exercise-7: Partial Application
@@ -129,24 +140,24 @@ def partial(func, *args):
     def wrapper(*new_args):
         return func(*args, *new_args)
     return wrapper
-            
+
 def add_three_numbers(a, b, c):
     return a + b + c
 
 add_five_and_six = partial(add_three_numbers, 5, 6)
 
 print(add_five_and_six(7))
+
+
 """
-
-from functools import reduce
-
-
 Exercise-8: Reduce to Compute Factorial
 Write a function "factorial_reduce(n: int) -> int" that uses `reduce` to compute the factorial of an integer.
 
 Example:
 factorial_reduce(5) -> 120
 """
+
+from functools import reduce
 
 def factorial_reduce(n: int) -> int:
     return reduce(lambda x, y: x * y, range(1, n + 1), 1)
@@ -187,7 +198,10 @@ def my_reduce(func, iterable, initializer=None):
     iterator = iter(iterable)
 
     if initializer is None:
-        result = next(iterator)
+        try:
+            result = next(iterator)
+        except StopIteration:
+            raise TypeError("Empty iterable")
     else:
         result = initializer
 
